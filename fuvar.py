@@ -1,5 +1,6 @@
 from sys import exit #Buildeléshez hasznos, mert magától nem importálódik
 from os import system #Konzol parancsokat futtat le
+from datetime import datetime #Modul dátumok értelmezéséhez
 
 def _main():
     system("cls") #Konzol törlése, nekem fejlesztésnél hasznos, ha ablakban fut, nincs sok jelentősége (ettől a sortól kezdve csak DOS rendszerekkel kompatibilis a script, de azt hiszem ez most nem jelent problémát)
@@ -67,11 +68,16 @@ def _main():
     open("hibak.txt" , "w") #Ha létezne már a fájl és van benne valami, ez kitörli. Ez azért kell ide, mert a következő opennél append mode-ot használok, ami kiegészíti a fájlt, nem felülírja.
     hibak = open("hibak.txt" , "a", encoding="utf8")
     hibak.write("taxi_id;indulas;idotartam;tavolsag;viteldij;borravalo;fizetes_modja") #Első sor
+    hibahalmaz = []
     for line in csv:
         columns = line.split(";")
         if(float(columns[3].replace(',','.')) == 0):
             if(int(columns[2]) > 0) and (float(columns[4].replace(',','.')) > 0):
-                hibak.write("\n" + line)
+                hibahalmaz.append(columns)
+    hibahalmaz = sorted(hibahalmaz, key = lambda row: datetime.strptime(row[1], "%Y-%m-%d %H:%M:%S")) #Hibák időrendi sorrendbe való helyezése (Eredetileg kifelejtettem)
+    for columns in hibahalmaz:
+        hibak.write(f"\n{';'.join(columns)}")
+    hibak.close()
     print("8. feladat: hibak.txt")
     system("pause")
     exit()
