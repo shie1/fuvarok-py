@@ -3,7 +3,6 @@ from os import system #Konzol parancsokat futtat le
 from datetime import datetime #Modul dátumok értelmezéséhez
 
 def _main():
-    system("cls") #Konzol törlése, nekem fejlesztésnél hasznos, ha ablakban fut, nincs sok jelentősége (ettől a sortól kezdve csak DOS rendszerekkel kompatibilis a script, de azt hiszem ez most nem jelent problémát)
 
     #Előkészítés
     try:
